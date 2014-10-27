@@ -1,4 +1,4 @@
-package com.zipfworks.template.spray
+package com.zipfworks.skeleton.spray
 
 import akka.actor.ActorSystem
 

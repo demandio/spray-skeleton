@@ -1,4 +1,4 @@
-package com.zipfworks.template.spray
+package com.zipfworks.skeleton.spray
 
 import com.zipfworks.template.spray.services.api.APIWebServer
 
