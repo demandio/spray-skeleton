@@ -1,7 +1,7 @@
 package com.zipfworks.skeleton.spray.datastore
 
 import akka.actor.ActorSystem
-import com.zipfworks.skeleton.spray.datastore.models.User
+import com.zipfworks.skeleton.spray.datastore.models.users.User
 import com.zipfworks.sprongo.macros.{MacroDAO, MacroDB}
 
 class MongoDB(db_urls: Seq[String], db_name: String)(implicit sys: ActorSystem)

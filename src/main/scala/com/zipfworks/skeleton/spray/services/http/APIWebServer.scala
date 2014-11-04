@@ -1,4 +1,4 @@
-package com.zipfworks.skeleton.spray.services.api
+package com.zipfworks.skeleton.spray.services.http
 
 import akka.util.Timeout
 import scala.concurrent.duration._

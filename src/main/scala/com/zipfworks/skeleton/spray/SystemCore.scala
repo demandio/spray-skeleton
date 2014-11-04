@@ -15,7 +15,7 @@ import com.zipfworks.skeleton.spray.datastore.MongoDB
 trait SystemCore {
   this: SystemConfig =>
 
-  implicit lazy val SYSTEM = ActorSystem("ss-api", LOADED_CONFIG)
-  lazy val MONGODB = new MongoDB(DB_URLS, "spray-skeleton")
+  implicit lazy val SYSTEM  = ActorSystem("ss-api", LOADED_CONFIG)
+  implicit lazy val MONGODB = new MongoDB(DB_URLS, "spray-skeleton")
 
 }

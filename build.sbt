@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback"          %  "logback-classic"        % "1.0.7",
   "io.spray"                %% "spray-can"              % "1.3.2",
   "io.spray"                %% "spray-routing"          % "1.3.2",
+  "com.github.t3hnar"       %% "scala-bcrypt"           % "2.4",
   "com.zipfworks"           %% "sprongo"                % "1.1.2.akka23-SNAPSHOT"
 )
 
