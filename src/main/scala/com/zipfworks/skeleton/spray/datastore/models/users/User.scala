@@ -51,5 +51,29 @@ object User extends ExtendedMacroHandlers with ExtendedJsonProtocol {
   def emailExists(email: String)(implicit ec: ExecutionContext): Future[Boolean] = {
     Controller.MONGODB.Users.execute(count("email" -> email.toLowerCase)).map(_ > 0)
   }
+
+
+  implicit class UserPimps(user: User)(implicit ec: ExecutionContext){
+
+    /**
+     * Generates a New Session, adds it to the user, and returns it
+     * @return Session
+     */
+    def getSession: Future[Session] = {
+      //generate a new session
+      val newSession = Session.generate
+
+      //add the session onto previous sessions, drop if there are too many
+      val newSessions = user.sessions.getOrElse(Nil).:+(newSession) match {
+        case sessx if sessx.length > 10 => sessx.drop(sessx.length - 10)
+        case sessx => sessx
+      }
+
+      Controller.MONGODB.Users
+        .execute(update("_id" -> user._id).ops($set("sessions", newSessions)))
+        .map(_ => newSession)
+    }
+
+  }
 }
 

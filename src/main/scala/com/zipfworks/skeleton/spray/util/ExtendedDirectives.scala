@@ -1,13 +1,14 @@
 package com.zipfworks.skeleton.spray.util
 
 import com.zipfworks.skeleton.spray.Controller
+import com.zipfworks.skeleton.spray.datastore.models.users.User
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.implicitConversions
 import spray.http.ContentTypes
 import spray.httpx.SprayJsonSupport
 import spray.httpx.marshalling.Marshaller
 import spray.json._
-import spray.routing.{Route, PathMatcher, PathMatcher1, Directives}
+import spray.routing._
 
 import scala.util.{Failure, Success}
 
@@ -16,10 +17,18 @@ trait ExtendedDirectives extends Directives with SprayJsonSupport with DefaultJs
   //Path matcher for getting a slug or ID
   val IdOrSlug: PathMatcher1[String] = PathMatcher("[a-z0-9A-Z_\\-]+".r)
 
+  //authentication directives
+  def requiredAuth(implicit ec: ExecutionContext): Directive1[User] = authenticate(new UserAuthenticator())
+
   type FMapRes = Future[Map[String, JsValue]]
   def completeMap(f: FMapRes)(implicit ec: ExecutionContext): Route = onComplete(f){
     case Success(m) => complete(m)
     case Failure(e) => ERR(e).complete
+  }
+
+  def completeRoute(r: Future[Route])(implicit ec: ExecutionContext): Route = onComplete(r){
+    case Success(s) => s
+    case Failure(f) => ERR(f).complete
   }
 
   /**********************************************************************************

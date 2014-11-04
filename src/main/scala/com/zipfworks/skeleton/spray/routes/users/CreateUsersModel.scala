@@ -5,7 +5,7 @@ import com.zipfworks.skeleton.spray.Controller
 import com.zipfworks.skeleton.spray.datastore.models.users.{Auth, User}
 import com.zipfworks.skeleton.spray.util.{ERR, Errors}
 import com.zipfworks.sprongo.ExtendedJsonProtocol
-import spray.json._
+import spray.json.JsValue
 import scala.concurrent.{Future, ExecutionContext}
 import com.zipfworks.sprongo.macros.SprongoDSL._
 
@@ -19,17 +19,15 @@ object CreateUsersModel extends ExtendedJsonProtocol {
 
   implicit class CUMPimps(cum: CreateUsersModel)(implicit ec: ExecutionContext){
 
-    def getResponse: Future[Map[String, JsValue]] = validate().flatMap({
+    def create: Future[User] = validate().flatMap({
       case Nil    => createUser()
       case errors => throw ERR.badRequest(errors: _*)
     })
 
-    private def createUser(): Future[Map[String, JsValue]] = {
+    private def createUser(): Future[User] = {
       val auth = Seq(Auth(token = cum.password.bcrypt, userID = "email", appDes = "email"))
       val newUser = User(email = cum.email.toLowerCase, auth = auth)
-      Controller.MONGODB.Users.execute(insert(newUser)).map(_ => {
-        Map("users" -> JsArray(newUser.toJson))
-      })
+      Controller.MONGODB.Users.execute(insert(newUser)).map(_ => newUser)
     }
 
     private def validate(): Future[List[(String, JsValue)]] = {
