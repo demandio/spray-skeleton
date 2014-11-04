@@ -1,4 +1,4 @@
-package com.zipfworks.template.spray.services.api
+package com.zipfworks.skeleton.spray.services.api
 
 import spray.routing.{HttpServiceActor, Route}
 import akka.actor.{Props, ActorLogging}
