@@ -1,4 +1,4 @@
-package com.zipfworks.skeleton.spray.routes.users
+package com.zipfworks.skeleton.spray.routes.api.users
 
 import com.github.t3hnar.bcrypt._
 import com.zipfworks.skeleton.spray.Controller

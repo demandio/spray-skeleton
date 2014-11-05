@@ -1,4 +1,4 @@
-package com.zipfworks.skeleton.spray.routes.users
+package com.zipfworks.skeleton.spray.routes.api.users
 
 import com.zipfworks.skeleton.spray.datastore.models.users.User
 import com.zipfworks.skeleton.spray.util.{ERR, UserAuthenticator, ExtendedDirectives}

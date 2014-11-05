@@ -1,6 +1,6 @@
 package com.zipfworks.skeleton.spray
 
-import com.zipfworks.skeleton.spray.routes.SampleRoute
+import com.zipfworks.skeleton.spray.routes.ServerRoutes
 import com.zipfworks.skeleton.spray.services.http.APIWebServer
 
 /**
@@ -19,6 +19,6 @@ trait SystemServices {
   import SYSTEM.dispatcher
 
   val HTTP_SERVICE: APIWebServer =
-    new APIWebServer(port = SERVER_PORT, timeout = SERVER_BIND_TIMEOUT, routes = new SampleRoute().routes)
+    new APIWebServer(port = SERVER_PORT, timeout = SERVER_BIND_TIMEOUT, routes = new ServerRoutes().routes)
 
 }
