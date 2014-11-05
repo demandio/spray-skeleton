@@ -2,6 +2,8 @@ package com.zipfworks.skeleton.spray.util
 
 import com.zipfworks.skeleton.spray.Controller
 import com.zipfworks.skeleton.spray.datastore.models.users.User
+import spray.http.CacheDirectives.{`max-age`, `must-revalidate`, `no-cache`}
+import spray.http.HttpHeaders.`Cache-Control`
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.implicitConversions
 import spray.http.ContentTypes
@@ -30,6 +32,11 @@ trait ExtendedDirectives extends Directives with SprayJsonSupport with DefaultJs
     case Success(s) => s
     case Failure(f) => ERR(f).complete
   }
+
+
+  //default to NOT CACHE the routes
+  val nocache: Directive0 =
+    respondWithSingletonHeader(`Cache-Control`(`no-cache`, `must-revalidate`, `max-age`(0)))
 
   /**********************************************************************************
     * Print Out Compact/Pretty depending on Production/Development
