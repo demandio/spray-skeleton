@@ -4,9 +4,9 @@ import com.zipfworks.skeleton.spray.Controller
 import com.zipfworks.sprongo.ExtendedJsonProtocol
 import com.zipfworks.sprongo.macros.ExtendedMacroHandlers
 import java.util.UUID
-import reactivemongo.bson.Macros
+import reactivemongo.bson.{BSONDocument, Macros}
 import com.zipfworks.sprongo.macros.SprongoDSL._
-
+import com.zipfworks.sprongo.macros.SelWriters._
 import scala.concurrent.{ExecutionContext, Future}
 
 
@@ -72,6 +72,22 @@ object User extends ExtendedMacroHandlers with ExtendedJsonProtocol {
       Controller.MONGODB.Users
         .execute(update("_id" -> user._id).ops($set("sessions", newSessions)))
         .map(_ => newSession)
+    }
+
+    /**
+     * Remove a Session from the User
+     * @param sessID: session id from the cookie
+     * @return whether or not it completed successfully
+     */
+    def delSession(sessID: String): Future[Boolean] = {
+      if(user.sessions.exists(_.exists(_.id.toString == sessID))){
+        Controller.MONGODB.Users
+          .execute(update(user._id).ops($pull("sessions", BSONDocument("id" -> sessID))))
+          .map(_ => true)
+      } else {
+        Future.successful(false)
+      }
+
     }
 
   }

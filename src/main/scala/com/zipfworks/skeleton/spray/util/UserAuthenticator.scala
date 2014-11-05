@@ -19,7 +19,7 @@ class UserAuthenticator(implicit ec: ExecutionContext) extends ContextAuthentica
 
     v1.request.cookies.find(_.name == sess_cookie_name).map(_.content).map(sessID => {
       Controller.MONGODB.Users.execute(
-        find(BSONDocument("sessions.id" -> sessID)).asList
+        find("sessions.id" -> sessID).asList
       ).map(users => {
         users.find(user => user.sessions.getOrElse(Nil).exists(sess => sess.id.toString == sessID && sess.expiresOn.isAfterNow))
       }).map({
@@ -35,7 +35,7 @@ class UserAuthenticator(implicit ec: ExecutionContext) extends ContextAuthentica
 }
 
 object UserAuthenticator extends Directives {
-  private final val sess_cookie_name = "spray_session"
+  final val sess_cookie_name = "spray_session"
   private final val cookie_path = Some("/")
 
   /**
@@ -59,6 +59,17 @@ object UserAuthenticator extends Directives {
     )
 
     setCookie(session_cookie)
+  }
+
+  def delSessionCookie: Directive0 = {
+    setCookie(HttpCookie(
+      name        = sess_cookie_name,
+      path        = cookie_path,
+      content     = "",
+      expires     = Some(DateTime.MinValue),
+      secure      = if(Controller.IS_PRODUCTION) true else false,
+      httpOnly    = if(Controller.IS_PRODUCTION) true else false
+    ))
   }
 
 }

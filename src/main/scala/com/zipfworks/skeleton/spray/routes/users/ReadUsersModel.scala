@@ -1,7 +1,6 @@
 package com.zipfworks.skeleton.spray.routes.users
 
 import com.zipfworks.skeleton.spray.Controller
-import reactivemongo.bson.BSONDocument
 import spray.json._
 import spray.routing.{Directives, Directive1}
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,7 +21,7 @@ object ReadUsersModel extends Directives {
 
     def getResponse: Future[Map[String, JsValue]] = {
       Controller.MONGODB.Users.execute(
-        find(BSONDocument()).skip(rum.page * rum.limit).limit(rum.limit).asList
+        find().skip(rum.page * rum.limit).limit(rum.limit).asList
       ).map(users =>
         Map("users" -> JsArray(users.map(_.toJson): _*))
       )
