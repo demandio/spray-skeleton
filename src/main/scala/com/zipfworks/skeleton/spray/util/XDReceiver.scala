@@ -6,14 +6,10 @@ import spray.http.HttpHeaders.`Cache-Control`
 import spray.routing.{Route, Directives, Directive0}
 import spray.http.MediaTypes.`text/html`
 
-trait IEDirectives {
+trait XDReceiver {
   this: Directives =>
 
   private final val defaultMaxAge = 604800
-
-  //default to NOT CACHE the routes
-  val nocache: Directive0 =
-    respondWithSingletonHeader(`Cache-Control`(`no-cache`, `must-revalidate`, `max-age`(0)))
 
   //XDReceiver
   val xdReceiverRoute: Route = (

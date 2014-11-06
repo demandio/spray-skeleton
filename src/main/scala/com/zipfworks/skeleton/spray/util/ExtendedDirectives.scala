@@ -37,9 +37,12 @@ trait ExtendedDirectives extends Directives with SprayJsonSupport with DefaultJs
     *********************************************************************************/
   val printer = if(Controller.IS_PRODUCTION) CompactPrinter else PrettyPrinter
 
-  override implicit def sprayJsonMarshallerConverter[T](writer: RootJsonWriter[T])(implicit printer: JsonPrinter = printer) =
+  override implicit def sprayJsonMarshallerConverter[T](writer: RootJsonWriter[T])
+                                                       (implicit printer: JsonPrinter = printer): Marshaller[T] = {
     sprayJsonMarshaller[T](writer, printer)
-  override implicit def sprayJsonMarshaller[T](implicit writer: RootJsonWriter[T], printer: JsonPrinter = printer) =
+  }
+
+  override implicit def sprayJsonMarshaller[T](implicit writer: RootJsonWriter[T], printer: JsonPrinter = printer): Marshaller[T] =
     Marshaller.delegate[T, String](ContentTypes.`application/json`) { value ⇒
       val json = writer.write(value)
       printer(json)

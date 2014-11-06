@@ -3,7 +3,7 @@ package com.zipfworks.skeleton.spray.util
 import com.zipfworks.skeleton.spray.Controller
 import spray.http._
 import spray.http.HttpHeaders._
-import spray.routing.{Directives, Route}
+import spray.routing.Directives
 import spray.http.SomeOrigins
 
 trait CORSDirectives {
@@ -29,17 +29,11 @@ trait CORSDirectives {
     `Access-Control-Allow-Credentials`(allow = true)
   )
 
+  val respondWithCORS = optionalHeaderValueByName("Origin").flatMap({
+    case Some(origin) => respondWithHeaders(corsHeaders(origin))
+    case None         => noop
+  })
 
-  def cors(route: Route): Route = {
-    optionalHeaderValueByName("Origin"){
-      case Some(clientOrigin) =>
-        respondWithHeaders(corsHeaders(clientOrigin)) {
-          (options & respondWithStatus(StatusCodes.NoContent)){
-            complete("")
-          } ~
-          route
-        }
-      case None => route
-    }
-  }
 }
+
+
