@@ -1,7 +1,7 @@
 package com.zipfworks.skeleton.spray
 
 import com.typesafe.config.ConfigFactory
-import scala.collection.JavaConverters._
+import scala.collection.JavaConversions._
 
 
 /**********************************************************************************
@@ -29,11 +29,11 @@ trait SystemConfig {
   val IS_PRODUCTION = ENVIRONMENT == "PRODUCTION"
 
   //DB
-  val DB_URLS       = LOADED_CONFIG.getStringList("db.urls").asScala
+  val DB_URLS       = LOADED_CONFIG.getStringList("db.urls").toList
 
   //SERVER
-  val SERVER_CORS_ORIGINS = LOADED_CONFIG.getStringList("webserver.cors.origins").asScala
-  val SERVER_CORS_HEADERS = LOADED_CONFIG.getStringList("webserver.cors.headers").asScala
+  val SERVER_CORS_ORIGINS = LOADED_CONFIG.getStringList("webserver.cors.origins").toList
+  val SERVER_CORS_HEADERS = LOADED_CONFIG.getStringList("webserver.cors.headers").toList
   val SERVER_XDRECEIVER   = LOADED_CONFIG.getString("webserver.xdreceiver.domain")
   val SERVER_PORT         = LOADED_CONFIG.getInt("webserver.port")
   val SERVER_BIND_TIMEOUT = LOADED_CONFIG.getInt("webserver.bindTimeout")
