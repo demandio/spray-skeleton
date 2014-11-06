@@ -27,9 +27,15 @@ trait SystemConfig {
 
   val ENVIRONMENT   = LOADED_CONFIG.getString("environment")
   val IS_PRODUCTION = ENVIRONMENT == "PRODUCTION"
+
+  //DB
   val DB_URLS       = LOADED_CONFIG.getStringList("db.urls").asScala
 
-  val SERVER_PORT = LOADED_CONFIG.getInt("webserver.port")
+  //SERVER
+  val SERVER_CORS_ORIGINS = LOADED_CONFIG.getStringList("webserver.cors.origins").asScala
+  val SERVER_CORS_HEADERS = LOADED_CONFIG.getStringList("webserver.cors.headers").asScala
+  val SERVER_XDRECEIVER   = LOADED_CONFIG.getString("webserver.xdreceiver.domain")
+  val SERVER_PORT         = LOADED_CONFIG.getInt("webserver.port")
   val SERVER_BIND_TIMEOUT = LOADED_CONFIG.getInt("webserver.bindTimeout")
 
 }

@@ -22,8 +22,7 @@ trait ExtendedDirectives extends Directives with SprayJsonSupport with DefaultJs
   //authentication directives
   def requiredAuth(implicit ec: ExecutionContext): Directive1[User] = authenticate(new UserAuthenticator())
 
-  type FMapRes = Future[Map[String, JsValue]]
-  def completeMap(f: FMapRes)(implicit ec: ExecutionContext): Route = onComplete(f){
+  def completeMap(f: Future[Map[String, JsValue]])(implicit ec: ExecutionContext): Route = onComplete(f){
     case Success(m) => complete(m)
     case Failure(e) => ERR(e).complete
   }
@@ -32,11 +31,6 @@ trait ExtendedDirectives extends Directives with SprayJsonSupport with DefaultJs
     case Success(s) => s
     case Failure(f) => ERR(f).complete
   }
-
-
-  //default to NOT CACHE the routes
-  val nocache: Directive0 =
-    respondWithSingletonHeader(`Cache-Control`(`no-cache`, `must-revalidate`, `max-age`(0)))
 
   /**********************************************************************************
     * Print Out Compact/Pretty depending on Production/Development
