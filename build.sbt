@@ -2,7 +2,7 @@ name := "spray-skeleton"
 
 version := "0.0.0"
 
-scalaVersion  := "2.11.2"
+scalaVersion  := "2.11.6"
 
 scalacOptions ++= Seq("-feature", "-deprecation")
 
@@ -14,18 +14,18 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"       %% "akka-remote"            % "2.3.6",
-  "com.typesafe.akka"       %% "akka-slf4j"             % "2.3.6",
-  "ch.qos.logback"          %  "logback-classic"        % "1.0.7",
+  "com.typesafe.akka"       %% "akka-actor"             % "2.3.11",
+  "com.typesafe.akka"       %% "akka-slf4j"             % "2.3.11",
+  "ch.qos.logback"          %  "logback-classic"        % "1.0.13",
   "io.spray"                %% "spray-can"              % "1.3.2",
   "io.spray"                %% "spray-routing"          % "1.3.2",
   "com.github.t3hnar"       %% "scala-bcrypt"           % "2.4",
-  "com.zipfworks"           %% "sprongo"                % "1.1.2.akka23-SNAPSHOT"
+  "com.zipfworks"           %% "sprongo"                % "1.3.1-SNAPSHOT",
+  "io.spray"                %% "spray-testkit"          % "1.3.2"     % "test",
+  "org.specs2"              %% "specs2"                 % "2.3.13"    % "test"
 )
 
-Revolver.settings
+Revolver.settings.settings
 
 fork := true
-
-envVars := Map("ENVIRONMENT" -> "local")
 
