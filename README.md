@@ -20,3 +20,11 @@ $ sbt run
 ```
 
 The server should be running on port 8080
+
+
+##For you Mac OSx Users:
+```
+$ brew install scala
+$ brew install sbt
+$ brew install mongodb
+```
