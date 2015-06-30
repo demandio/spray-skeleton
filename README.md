@@ -10,8 +10,10 @@ Prerequisites:
 + mongodb
 
 Quick-Start:
+
 1. clone the repo
 2. run using sbt
+
 
 ```
 $ git clone git@github.com:zipfworks/spray-skeleton.git
@@ -21,6 +23,12 @@ $ sbt run
 
 The server should be running on port 8080
 
+##For Debian-based Linux Users:
+```
+$ apt-get install scala
+$ apt-get install sbt
+$ apt-get install mongodb
+```
 
 ##For you Mac OSx Users:
 ```
@@ -28,3 +36,6 @@ $ brew install scala
 $ brew install sbt
 $ brew install mongodb
 ```
+
+##For you Windows Users:
+umm... good luck?
